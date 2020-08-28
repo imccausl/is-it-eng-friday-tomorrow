@@ -18,6 +18,8 @@ if (process.env.NODE_ENV === 'production') {
     calendarId = config.calendarId
     scope = config.scope
 }
+
+console.log(clientId, calendarId, scope)
 class GoogleSignIn extends React.Component {
     state = {
         isSignedIn: false,
