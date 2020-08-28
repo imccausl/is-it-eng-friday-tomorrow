@@ -2,8 +2,6 @@ import './App.css';
 
 import React from 'react'
 import moment from 'moment'
-
-import config from './config'
 class GoogleSignIn extends React.Component {
     state = {
         isSignedIn: false,
@@ -27,6 +25,7 @@ class GoogleSignIn extends React.Component {
 
     initClient = script => {
         const { gapi } = window
+        console.log(process.env.REACT_APP_CLIENT_ID, process.env.REACT_APP_SCOPE)
 
         gapi.client.init({
             clientId: process.env.REACT_APP_CLIENT_ID,
