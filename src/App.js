@@ -28,20 +28,9 @@ class GoogleSignIn extends React.Component {
     initClient = script => {
         const { gapi } = window
 
-        let clientId
-        let scope
-
-        if (process.env.NODE_ENV === 'production') {
-            clientId = process.env.CLIENT_ID
-            scope = process.env.SCOPE
-        } else {
-            clientId = config.clientId
-            scope = config.scope
-        }
-
         gapi.client.init({
-            clientId: clientId,
-            scope: scope,
+            clientId: process.env.REACT_APP_CLIENT_ID,
+            scope: process.env.REACT_APP_SCOPE,
             discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
         }).then(() => {
             gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus)
@@ -96,16 +85,8 @@ class GoogleAnswer extends React.Component {
         const today = moment()
         const tomorrowString = today.add(1, 'days').format('yyyy-MM-DD')
 
-        let calendarId
-
-        if (process.env.NODE_ENV === 'production') {
-            calendarId = process.env.CALENDAR_ID
-        } else {
-            calendarId = config.calendarId
-        }
-
         gapi.client.calendar.events.list({
-            'calendarId': calendarId,
+            'calendarId': process.env.REACT_APP_CALENDAR_ID,
             'timeMin': today.add(-1, 'days').format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'),
             'showDeleted': false,
             'singleEvents': true,
