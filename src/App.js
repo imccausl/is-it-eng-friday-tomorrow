@@ -139,12 +139,13 @@ class GoogleAnswer extends React.Component {
         }
       })
       .catch((error) => {
+        console.log(error)
         this.setState({ hasError: true, error })
       })
   }
 
   render() {
-    const { loading, hasEvents, isEngFriday } = this.state
+    const { loading, hasEvents, hasError, isEngFriday } = this.state
     if (loading) {
       return <div className="status">Finding out...</div>
     }
