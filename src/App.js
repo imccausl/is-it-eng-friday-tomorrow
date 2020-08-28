@@ -5,14 +5,18 @@ import moment from 'moment'
 
 import config from './config'
 
-let clientId = config.clientId
-let calendarId = config.calendarId
-let scope = config.scope
+let clientId
+let calendarId
+let scope
 
 if (process.env.NODE_ENV === 'production') {
     clientId = process.env.CLIENT_ID
     calendarId = process.env.CALENDAR_ID
     scope = process.env.SCOPE
+} else {
+    clientId = config.clientId
+    calendarId = config.calendarId
+    scope = config.scope
 }
 class GoogleSignIn extends React.Component {
     state = {
