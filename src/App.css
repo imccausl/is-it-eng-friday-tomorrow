@@ -34,3 +34,10 @@
 .button-container {
   text-align: center;
 }
+
+.not-friday {
+  text-align: center;
+  color: white;
+  font-size: 10em;
+  padding: 50px;
+}

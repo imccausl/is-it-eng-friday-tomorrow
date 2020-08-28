@@ -4,13 +4,18 @@ import React from 'react'
 import moment from 'moment'
 class GoogleSignIn extends React.Component {
   state = {
+    isFriday: false,
     isSignedIn: false,
     hasError: false,
     error: '',
   }
 
   componentDidMount() {
-    this.initGapi()
+    const tomorrow = moment().weekday()
+    if (tomorrow === 4) {
+      this.setState({ isFriday: true })
+      this.initGapi()
+    }
   }
 
   initGapi = () => {
@@ -89,11 +94,14 @@ class GoogleSignIn extends React.Component {
   }
 
   render() {
-    const { isSignedIn } = this.state
+    const { isSignedIn, isFriday } = this.state
 
     return (
       <>
-        {isSignedIn && <GoogleAnswer />}
+        {isSignedIn && isFriday && <GoogleAnswer />}
+        {!isFriday && (
+          <div className="not-friday">It's not Friday tomorrow, so no.</div>
+        )}
         {this.getAuthButton()}
       </>
     )
@@ -104,6 +112,7 @@ class GoogleAnswer extends React.Component {
   state = {
     hasError: false,
     hasEvents: false,
+    isFriday: false,
     isEngFriday: false,
     loading: true,
     error: '',
@@ -146,7 +155,7 @@ class GoogleAnswer extends React.Component {
       })
       .catch((error) => {
         console.log(error)
-        this.setState({ hasError: true, error })
+        this.setState({ hasError: true, error, loading: false })
       })
   }
 
@@ -161,7 +170,7 @@ class GoogleAnswer extends React.Component {
     }
 
     if (hasError) {
-      return <div className="error">Probably not?</div>
+      return <div className="error">Something's wrong!</div>
     }
     return <div className="answer">{isEngFriday ? 'YES' : 'NO'}</div>
   }
