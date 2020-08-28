@@ -70,15 +70,21 @@ class GoogleSignIn extends React.Component {
     if (!isSignedIn) {
       return (
         <button onClick={this.handleAuthClick} type="button" id="loginButton">
-          Login with Google
+          Login with Google to Find Out
         </button>
       )
     }
 
     return (
-      <button onClick={this.handleSignoutClick} type="button" id="loginButton">
-        Sign out
-      </button>
+      <div className="button-container">
+        <button
+          onClick={this.handleSignoutClick}
+          type="button"
+          id="loginButton"
+        >
+          Sign out
+        </button>
+      </div>
     )
   }
 
