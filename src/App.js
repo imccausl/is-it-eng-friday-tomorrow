@@ -5,6 +5,15 @@ import moment from 'moment'
 
 import config from './config'
 
+let clientId = config.clientId
+let calendarId = config.calendarId
+let scope = config.scope
+
+if (process.env.NODE_ENV === 'production') {
+    clientId = process.env.CLIENT_ID
+    calendarId = process.env.CALENDAR_ID
+    scope = process.env.SCOPE
+}
 class GoogleSignIn extends React.Component {
     state = {
         isSignedIn: false,
@@ -30,8 +39,8 @@ class GoogleSignIn extends React.Component {
         const { gapi } = window
 
         gapi.client.init({
-            clientId: config.clientId,
-            scope: config.scope,
+            clientId: clientId,
+            scope: scope,
             discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
         }).then(() => {
             gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus)
@@ -87,7 +96,7 @@ class GoogleAnswer extends React.Component {
         const tomorrowString = today.add(1, 'days').format('yyyy-MM-DD')
 
         gapi.client.calendar.events.list({
-            'calendarId': config.calendarId,
+            'calendarId': calendarId,
             'timeMin': today.add(-1, 'days').format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'),
             'showDeleted': false,
             'singleEvents': true,
