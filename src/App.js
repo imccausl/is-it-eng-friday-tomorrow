@@ -4,22 +4,6 @@ import React from 'react'
 import moment from 'moment'
 
 import config from './config'
-
-let clientId
-let calendarId
-let scope
-
-if (process.env.NODE_ENV === 'production') {
-    clientId = process.env.CLIENT_ID
-    calendarId = process.env.CALENDAR_ID
-    scope = process.env.SCOPE
-} else {
-    clientId = config.clientId
-    calendarId = config.calendarId
-    scope = config.scope
-}
-
-console.log(clientId, calendarId, scope)
 class GoogleSignIn extends React.Component {
     state = {
         isSignedIn: false,
@@ -43,6 +27,17 @@ class GoogleSignIn extends React.Component {
 
     initClient = script => {
         const { gapi } = window
+
+        let clientId
+        let scope
+
+        if (process.env.NODE_ENV === 'production') {
+            clientId = process.env.CLIENT_ID
+            scope = process.env.SCOPE
+        } else {
+            clientId = config.clientId
+            scope = config.scope
+        }
 
         gapi.client.init({
             clientId: clientId,
@@ -100,6 +95,14 @@ class GoogleAnswer extends React.Component {
         const { gapi } = window
         const today = moment()
         const tomorrowString = today.add(1, 'days').format('yyyy-MM-DD')
+
+        let calendarId
+
+        if (process.env.NODE_ENV === 'production') {
+            calendarId = process.env.CALENDAR_ID
+        } else {
+            calendarId = config.calendarId
+        }
 
         gapi.client.calendar.events.list({
             'calendarId': calendarId,
