@@ -1,15 +1,15 @@
 .App {
-    height: 100vh;
-    background-color: #282c34;
+  height: 100vh;
+  background-color: #282c34;
 }
 
 .wrapper {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 .App-header {
   font-size: calc(10px + 2vmin);
@@ -17,12 +17,16 @@
 }
 
 .answer {
-    font-size: 15em;
-    color: white;
+  font-size: 15em;
+  color: white;
 }
 
 .status {
-    font-size: 2em;
-    color: white;
+  font-size: 2em;
+  color: white;
 }
 
+.error {
+  font-size: 10em;
+  color: orange;
+}
