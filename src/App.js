@@ -65,7 +65,7 @@ class GoogleSignIn extends React.Component {
     gapi.auth2.getAuthInstance().signOut()
   }
 
-  render() {
+  getAuthButton = () => {
     const { isSignedIn } = this.state
 
     if (!isSignedIn) {
@@ -76,7 +76,22 @@ class GoogleSignIn extends React.Component {
       )
     }
 
-    return <GoogleAnswer />
+    return (
+      <button onClick={this.handleSignoutClick} type="button" id="loginButton">
+        Sign out
+      </button>
+    )
+  }
+
+  render() {
+    const { isSignedIn } = this.state
+
+    return (
+      <>
+        {isSignedIn && <GoogleAnswer />}
+        {this.getAuthButton()}
+      </>
+    )
   }
 }
 
