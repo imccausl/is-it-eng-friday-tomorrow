@@ -25,7 +25,6 @@ class GoogleSignIn extends React.Component {
 
   initClient = (script) => {
     const { gapi } = window
-    console.log(process.env.REACT_APP_CLIENT_ID, process.env.REACT_APP_SCOPE)
 
     gapi.client
       .init({
@@ -119,7 +118,6 @@ class GoogleAnswer extends React.Component {
       })
       .then((response) => {
         const events = response.result.items
-        console.log(events)
         if (events.length > 0) {
           const eventSummaries = events.reduce((acc, event) => {
             const eventStartRaw = event.start && event.start.dateTime
@@ -130,7 +128,7 @@ class GoogleAnswer extends React.Component {
             }
             return acc
           }, [])
-          console.log(eventSummaries)
+
           this.setState({
             isEngFriday: eventSummaries.includes('Engineering Friday'),
             hasEvents: true,
