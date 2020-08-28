@@ -2,20 +2,19 @@ import './App.css'
 
 import React from 'react'
 import moment from 'moment'
+
+import googleLogo from './img/btn_google_signin_light_normal_web.png'
+
 class GoogleSignIn extends React.Component {
   state = {
-    isFriday: false,
     isSignedIn: false,
     hasError: false,
     error: '',
+    loadingGapi: true,
   }
 
   componentDidMount() {
-    const tomorrow = moment().weekday()
-    if (tomorrow === 4) {
-      this.setState({ isFriday: true })
-      this.initGapi()
-    }
+    this.initGapi()
   }
 
   initGapi = () => {
@@ -41,11 +40,13 @@ class GoogleSignIn extends React.Component {
       })
       .then(
         () => {
-          gapi.auth2
-            .getAuthInstance()
-            .isSignedIn.listen(this.updateSigninStatus)
+            this.setState({ loadingGapi: false })
 
-          this.updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get())
+            gapi.auth2
+                .getAuthInstance()
+                .isSignedIn.listen(this.updateSigninStatus)
+
+            this.updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get())
         },
         (error) => {
           this.setState({ error, hasError: true })
@@ -74,35 +75,34 @@ class GoogleSignIn extends React.Component {
 
     if (!isSignedIn) {
       return (
-        <button onClick={this.handleAuthClick} type="button" id="loginButton">
-          Login with Google to Find Out
+        <button onClick={this.handleAuthClick} type="button" id="login-button">
+          <img src={googleLogo} alt="Sign in with google" />
         </button>
       )
     }
 
     return (
-      <div className="button-container">
         <button
-          onClick={this.handleSignoutClick}
-          type="button"
-          id="loginButton"
+            onClick={this.handleSignoutClick}
+            type="button"
+            id="logoutButton"
         >
-          Sign out
+            Sign out
         </button>
-      </div>
     )
   }
 
   render() {
-    const { isSignedIn, isFriday } = this.state
+    const { isSignedIn, loadingGapi } = this.state
 
     return (
       <>
-        {isSignedIn && isFriday && <GoogleAnswer />}
-        {!isFriday && (
-          <div className="not-friday">It's not Friday tomorrow, so no.</div>
+        {isSignedIn && <GoogleAnswer />}
+        {!loadingGapi && (
+            <div className="button-container">
+                {this.getAuthButton()}
+            </div>
         )}
-        {this.getAuthButton()}
       </>
     )
   }
@@ -117,15 +117,21 @@ class GoogleAnswer extends React.Component {
     loading: true,
     error: '',
   }
+
   componentDidMount() {
     const { gapi } = window
     const today = moment()
     const tomorrowString = today.add(1, 'days').format('yyyy-MM-DD')
+    const tomorrowWeekday = moment().weekday()
+
+    if (tomorrowWeekday === 4) {
+      this.setState({ isFriday: true })
+    }
 
     gapi.client.calendar.events
       .list({
         calendarId: process.env.REACT_APP_CALENDAR_ID,
-        timeMin: today.add(-1, 'days').format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'),
+        timeMin: today.format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'),
         showDeleted: false,
         singleEvents: true,
         maxResults: 10,
@@ -133,12 +139,18 @@ class GoogleAnswer extends React.Component {
       })
       .then((response) => {
         const events = response.result.items
+        if (process.env.NODE_ENV !== 'production') {
+            console.log("today:", today.format('yyyy-MM-DD'))
+            console.log("tomorrowString:", tomorrowString)
+            console.log("timeMin:", today.format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'))
+            console.log(events)
+        }
         if (events.length > 0) {
           const eventSummaries = events.reduce((acc, event) => {
             const eventStartRaw = event.start && event.start.dateTime
             const eventStartDate =
               eventStartRaw && moment(eventStartRaw).format('yyyy-MM-DD')
-            if (eventStartDate === tomorrowString) {
+            if (eventStartDate === tomorrowString && event.status === 'confirmed') {
               return acc.concat(event.summary)
             }
             return acc
@@ -160,11 +172,14 @@ class GoogleAnswer extends React.Component {
   }
 
   render() {
-    const { loading, hasEvents, hasError, isEngFriday } = this.state
+    const { loading, hasEvents, hasError, isFriday, isEngFriday } = this.state
     if (loading) {
       return <div className="status">Finding out...</div>
     }
 
+    if (!loading && !isFriday) {
+        return <div className="not-friday">It's not Friday tomorrow</div>
+    }
     if (!loading && !hasEvents) {
       return <div className="answer">NO</div>
     }
@@ -172,6 +187,7 @@ class GoogleAnswer extends React.Component {
     if (hasError) {
       return <div className="error">Something's wrong!</div>
     }
+
     return <div className="answer">{isEngFriday ? 'YES' : 'NO'}</div>
   }
 }
