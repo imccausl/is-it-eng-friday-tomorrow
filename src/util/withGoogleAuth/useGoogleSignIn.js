@@ -47,7 +47,7 @@ const useGoogleSignIn = ({
   }
 
   useEffect(() => {
-    let unmounted = true
+    let unmounted = false
 
     loadScript(() => {
       const { gapi } = window
@@ -56,11 +56,17 @@ const useGoogleSignIn = ({
       if (!GoogleAuth) {
         gapi.client.init(config).then(
           (res) => {
-            setLoaded(true)
-            const signedIn = GoogleAuth.isSignedIn.get()
-            if (signedIn) {
-              handleSignInSuccess(res)
-            }
+              if (!unmounted) {
+                  setLoaded(true)
+
+                  GoogleAuth.isSignedIn.listen(() => handleSignInSuccess(res))
+
+                  const signedIn = GoogleAuth.isSignedIn.get()
+
+                  if (signedIn) {
+                    handleSignInSuccess(res)
+                  }
+              }
           },
           (error) => {
             setLoaded(true)
@@ -76,8 +82,6 @@ const useGoogleSignIn = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {}, [loaded])
 
   return [signIn, loaded]
 }
