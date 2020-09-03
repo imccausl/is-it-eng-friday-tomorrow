@@ -1,25 +1,10 @@
-import { useState, useEffect, useCallback } from 'react'
+import './GoogleAuth.css'
 
-import { SCRIPT_SRC, SCRIPT_ID } from './constants'
+import React, { useCallback, useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { loadScript, removeScript } from './utils'
 
-const loadScript = (callback) => {
-  const script = document.createElement('script')
-  script.onload = () => {
-    console.log('Script loaded..')
-    window.gapi.load('client:auth2', callback)
-  }
-  script.id = SCRIPT_ID
-  script.src = SCRIPT_SRC
-  document.body.appendChild(script)
-}
-
-const removeScript = () => {
-  const element = document.getElementById(SCRIPT_ID)
-
-  if (element) {
-    element.parentNode.removeChild(element)
-  }
-}
+import googleLogo from '../../img/btn_google_signin_light_normal_web.png'
 
 const useGoogleSignIn = ({
   config,
@@ -28,9 +13,9 @@ const useGoogleSignIn = ({
 }) => {
   const [loaded, setLoaded] = useState(false)
 
-  const handleSignInSuccess = (res) => {
+  const handleSignInSuccess = useCallback(res => {
     onSuccess(res)
-  }
+  }, [onSuccess])
 
   function signIn(e) {
     if (e) {
@@ -80,10 +65,36 @@ const useGoogleSignIn = ({
       unmounted = true
       removeScript()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [config, handleSignInSuccess, onFailure])
 
   return [signIn, loaded]
+}
+
+export const GoogleSignInButton = ({config, onSuccess, onFailure}) => {
+    const [signIn, loaded] = useGoogleSignIn({ config, onSuccess, onFailure})
+
+    const handleSignIn = e => {
+        if (!loaded) {
+            e.preventDefault()
+            return
+        }
+
+        signIn(e)
+    }
+
+    const buttonContent = loaded
+        ? <img src={googleLogo} alt="Sign in with Google" />
+        : 'Loading API...'
+
+
+    return (
+        <button
+            onClick={handleSignIn}
+            id="login-button"
+        >
+            {buttonContent}
+        </button>
+    )
 }
 
 export default useGoogleSignIn

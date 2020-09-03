@@ -1,9 +1,10 @@
 import './App.css'
 
-import React from 'react'
+import React, { useState } from 'react'
 import moment from 'moment'
 
 import withGoogleAuth from './util/withGoogleAuth'
+import { GoogleSignInButton } from './util/withGoogleAuth/useGoogleSignIn'
 
 const config = {
   clientId: process.env.REACT_APP_CLIENT_ID,
@@ -13,9 +14,7 @@ const config = {
   ],
 }
 
-const Answer = withGoogleAuth(
-  config,
-  class extends React.Component {
+class Answer extends React.Component {
     state = {
       hasError: false,
       hasEvents: false,
@@ -100,9 +99,18 @@ const Answer = withGoogleAuth(
       )
     }
   }
-)
 
 function App() {
+    const [signedIn, setSignedIn ] = useState(false)
+
+    const handleSignIn = () => {
+        setSignedIn(true)
+    }
+
+    const handleAuthFail = err => {
+        console.log(err)
+    }
+
   return (
     <div className="App">
       <div className="wrapper">
@@ -110,7 +118,14 @@ function App() {
           <p>Is eng friday tomorrow?</p>
         </header>
         <main>
-          <Answer />
+          {signedIn && <Answer />}
+          {!signedIn && (
+            <GoogleSignInButton
+                config={config}
+                onSuccess={handleSignIn}
+                onFailure={handleAuthFail}
+            />
+        )}
         </main>
       </div>
     </div>
