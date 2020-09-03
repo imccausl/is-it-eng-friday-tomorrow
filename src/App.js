@@ -103,7 +103,8 @@ class Answer extends React.Component {
 function App() {
     const [signedIn, setSignedIn ] = useState(false)
 
-    const handleSignIn = () => {
+    const handleSignIn = (res) => {
+        console.log(res)
         setSignedIn(true)
     }
 
