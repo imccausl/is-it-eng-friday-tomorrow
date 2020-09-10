@@ -1,5 +1,3 @@
-import './GoogleAuth.css'
-
 import { useCallback, useEffect, useState } from 'react'
 
 import { loadScript, removeScript } from './utils'

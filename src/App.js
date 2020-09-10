@@ -3,7 +3,7 @@ import './App.css'
 import React, { useState } from 'react'
 import moment from 'moment'
 
-import { GoogleSignIn } from './util/GoogleAuth'
+import { GoogleSignIn, GoogleSignOut } from './util/GoogleAuth'
 
 const config = {
   clientId: process.env.REACT_APP_CLIENT_ID,

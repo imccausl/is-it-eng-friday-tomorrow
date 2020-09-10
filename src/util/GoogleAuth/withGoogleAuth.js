@@ -1,5 +1,3 @@
-import './GoogleAuth.css'
-
 import React from 'react'
 
 import googleLogo from '../../img/btn_google_signin_light_normal_web.png'
