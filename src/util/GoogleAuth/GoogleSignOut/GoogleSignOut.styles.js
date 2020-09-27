@@ -1,23 +1,47 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
-const setBackgroundImage = (imageUrl) => css`
-  background-image: url(${imageUrl});
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
+export const SignOutButtonStyle = styled.button`
+  display: block;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
 `
-export const SignOutContainer = styled.button`
-  align-items: flex-start;
+
+export const SignOutButtonContainer = styled.div`
+  align-items: center;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
   justify-content: center;
 `
 
-export const Avatar = styled.div`
+export const NameContainer = styled.div`
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  margin-left: 10px;
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+`
+
+export const NameStyle = styled.p`
+  font-weight: bold;
+  font-size: 1.5em;
+`
+
+export const EmailStyle = styled.p`
+  font-size: 1em;
+`
+
+export const Avatar = styled.img`
   border-radius: 50%;
   height: 60px;
   width: 60px;
-
-  ${({ img }) => img && setBackgroundImage(img)}
 `

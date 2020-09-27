@@ -3,7 +3,8 @@ import './App.css'
 import React, { useState } from 'react'
 import moment from 'moment'
 
-import { GoogleSignIn, GoogleSignOut } from './util/GoogleAuth'
+import { GoogleSignIn } from './util/GoogleAuth'
+import Topbar from './Components/Topbar'
 
 const config = {
   clientId: process.env.REACT_APP_CLIENT_ID,
@@ -101,21 +102,44 @@ class Answer extends React.Component {
 
 function App() {
   const [signedIn, setSignedIn] = useState(false)
+  const [avatarDetails, setAvatarDetails] = useState(null)
 
   const handleSignIn = (res) => {
     console.log(res)
+    setAvatarDetails({
+      name: res?.getName(),
+      avatar: res?.getImageUrl(),
+      email: res?.getEmail(),
+    })
     setSignedIn(true)
+  }
+
+  const handleSignOut = () => {
+    setSignedIn(false)
   }
 
   const handleAuthFail = (err) => {
     console.log(err)
   }
 
+  const handleSignOutFailure = (err) => {}
+
   return (
     <div className="App">
       <div className="wrapper">
         <header className="App-header">
-          <p>Is eng friday tomorrow?</p>
+          {signedIn ? (
+            <Topbar
+              avatarDetails={avatarDetails}
+              signOutProps={{
+                config,
+                handleSuccess: handleSignOut,
+                handleFailure: handleSignOutFailure,
+              }}
+            />
+          ) : (
+            <p>Is it eng friday tomorrow?</p>
+          )}
         </header>
         <main>
           {signedIn && <Answer />}
