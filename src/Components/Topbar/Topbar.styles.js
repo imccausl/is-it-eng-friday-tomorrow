@@ -1,11 +1,18 @@
 import styled from 'styled-components'
 
+export const AvatarImg = styled.img`
+  display: block;
+  border-radius: 50%;
+  height: 40px;
+`
+
 export const TopbarContainer = styled.div`
   align-items: center;
   background-color: #667084;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  height: 50px;
   justify-content: space-between;
   left: 0;
   padding: 10px;

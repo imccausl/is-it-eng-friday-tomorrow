@@ -1,13 +1,24 @@
 import React from 'react'
 
+import Dropdown from '../../util/Dropdown'
 import { GoogleSignOut } from '../../util/GoogleAuth'
-import { HeaderStyle, TopbarContainer } from './Topbar.styles'
+
+import { AvatarImg, HeaderStyle, TopbarContainer } from './Topbar.styles'
+
+const Avatar = ({ url }) => {
+  return <AvatarImg src={url} />
+}
 
 const Topbar = ({ avatarDetails, signOutProps }) => {
+  const menuItems = [<GoogleSignOut title="Sign Out" />]
+
   return (
     <TopbarContainer>
       <HeaderStyle>Is it eng friday tomorrow?</HeaderStyle>
-      <GoogleSignOut {...avatarDetails} {...signOutProps} />
+      <Dropdown
+        header={<Avatar url={avatarDetails.avatar} />}
+        items={menuItems}
+      />
     </TopbarContainer>
   )
 }

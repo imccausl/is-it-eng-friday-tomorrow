@@ -106,11 +106,15 @@ function App() {
 
   const handleSignIn = (res) => {
     console.log(res)
-    setAvatarDetails({
-      name: res?.getName(),
-      avatar: res?.getImageUrl(),
-      email: res?.getEmail(),
-    })
+    if (typeof res.getGivenName === 'function') {
+      setAvatarDetails({
+        firstName: res?.getGivenName(),
+        lastName: res?.getFamilyName(),
+        avatar: res?.getImageUrl(),
+        email: res?.getEmail(),
+      })
+    }
+
     setSignedIn(true)
   }
 

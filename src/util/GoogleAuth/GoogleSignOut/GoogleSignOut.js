@@ -13,11 +13,13 @@ import {
 
 const GoogleSignOut = ({
   avatar,
-  name,
+  firstName,
+  lastName,
   email,
   config,
   onSuccess,
   onFailure,
+  title,
 }) => {
   const [signOut, loaded] = useGoogleSignOut({
     config,
@@ -34,14 +36,17 @@ const GoogleSignOut = ({
     signOut(e)
   }
 
-  console.log(avatar, name, email)
   return (
     <SignOutButtonStyle onClick={handleSignOut}>
       <SignOutButtonContainer>
-        <Avatar src={avatar} alt={`Signed into Google as ${name}`} />
+        {avatar && (
+          <Avatar
+            src={avatar}
+            alt={`Signed into Google as ${firstName} ${lastName}`}
+          />
+        )}
         <NameContainer>
-          <NameStyle>{name}</NameStyle>
-          <EmailStyle>{email}</EmailStyle>
+          <NameStyle>{title}</NameStyle>
         </NameContainer>
       </SignOutButtonContainer>
     </SignOutButtonStyle>

@@ -20,7 +20,6 @@ export const NameContainer = styled.div`
   align-items: flex-start;
   display: flex;
   flex-direction: column;
-  color: white;
   flex-wrap: nowrap;
   justify-content: flex-start;
   margin-left: 10px;
@@ -32,7 +31,7 @@ export const NameContainer = styled.div`
 `
 
 export const NameStyle = styled.p`
-  font-weight: bold;
+  color: inherit;
   font-size: 1.5em;
 `
 
@@ -42,6 +41,4 @@ export const EmailStyle = styled.p`
 
 export const Avatar = styled.img`
   border-radius: 50%;
-  height: 60px;
-  width: 60px;
 `
