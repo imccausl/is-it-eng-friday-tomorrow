@@ -4,8 +4,10 @@ export const SignOutButtonStyle = styled.button`
   display: block;
   border: 0;
   padding: 0;
+  font-size: 16px;
   margin: 0;
   background-color: transparent;
+  width: 100%;
 `
 
 export const SignOutButtonContainer = styled.div`
@@ -22,7 +24,6 @@ export const NameContainer = styled.div`
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: flex-start;
-  margin-left: 10px;
 
   p {
     margin: 0;
@@ -32,7 +33,7 @@ export const NameContainer = styled.div`
 
 export const NameStyle = styled.p`
   color: inherit;
-  font-size: 1.5em;
+  font-size: 1em;
 `
 
 export const EmailStyle = styled.p`

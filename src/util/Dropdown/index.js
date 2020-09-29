@@ -10,8 +10,14 @@ import {
 
 const ITEM_SHAPE = {}
 
-const mapMenuItems = (item) => {
-  return <DropdownItemContainer>{item}</DropdownItemContainer>
+const mapMenuItems = (item, index, array) => {
+  const isLastItem = index === array.length - 1
+
+  return (
+    <DropdownItemContainer bottomBorder={!isLastItem}>
+      {item}
+    </DropdownItemContainer>
+  )
 }
 
 const Dropdown = (props) => {

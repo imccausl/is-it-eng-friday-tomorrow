@@ -14,6 +14,7 @@ export const TopbarContainer = styled.div`
   flex-wrap: nowrap;
   height: 50px;
   justify-content: space-between;
+  font-size: 16px;
   left: 0;
   padding: 10px;
   position: fixed;
@@ -27,4 +28,11 @@ export const HeaderStyle = styled.h1`
   margin: 0;
   padding: 0;
   width: 100%;
+`
+export const SignedInAsStyle = styled.p`
+  color: #585757;
+  width: 100%;
+  font-size: 1em;
+  margin: 0;
+  text-align: center;
 `
