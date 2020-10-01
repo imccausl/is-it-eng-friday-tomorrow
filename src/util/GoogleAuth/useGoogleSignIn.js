@@ -31,12 +31,15 @@ const useGoogleSignIn = ({
     let unmounted = false
 
     loadScript(() => {
+      console.log('inside load script callback...')
+
       const { gapi } = window
       const GoogleAuth = gapi.auth2.getAuthInstance()
-
+      console.log(GoogleAuth)
       if (!GoogleAuth) {
         gapi.client.init(config).then(
           () => {
+            console.log('initializing...')
             if (!unmounted) {
               setLoaded(true)
               const auth2 = gapi.auth2.getAuthInstance()
@@ -52,6 +55,14 @@ const useGoogleSignIn = ({
             onFailure(error)
           }
         )
+      } else {
+        setLoaded(true)
+        const auth2 = gapi.auth2.getAuthInstance()
+        const signedIn = auth2.isSignedIn.get()
+
+        if (signedIn) {
+          handleSignInSuccess()
+        }
       }
     })
 
