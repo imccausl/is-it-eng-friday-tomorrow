@@ -48,7 +48,10 @@ const Topbar = ({ avatarDetails, signOutProps }) => {
       isClickable: false,
       element: <SignedInAsStyle>{getSignedInText()}</SignedInAsStyle>,
     },
-    { isClickable: true, element: <GoogleSignOut title="Sign Out" /> },
+    {
+      isClickable: true,
+      element: <GoogleSignOut title="Sign Out" {...signOutProps} />,
+    },
   ]
 
   return (

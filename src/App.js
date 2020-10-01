@@ -139,8 +139,8 @@ function App() {
               avatarDetails={avatarDetails}
               signOutProps={{
                 config,
-                handleSuccess: handleSignOut,
-                handleFailure: handleSignOutFailure,
+                onSuccess: handleSignOut,
+                onFailure: handleSignOutFailure,
               }}
             />
           ) : (
