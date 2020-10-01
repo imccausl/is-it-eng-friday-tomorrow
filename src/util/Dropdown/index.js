@@ -8,16 +8,9 @@ import {
   DropdownItemContainer,
 } from './Dropdown.styles'
 
-const ITEM_SHAPE = {}
-
-const mapMenuItems = (item, index, array) => {
-  const isLastItem = index === array.length - 1
-
-  return (
-    <DropdownItemContainer bottomBorder={!isLastItem}>
-      {item}
-    </DropdownItemContainer>
-  )
+const ITEM_SHAPE = {
+  isClickable: PropTypes.bool,
+  element: PropTypes.element,
 }
 
 const Dropdown = (props) => {
@@ -25,6 +18,7 @@ const Dropdown = (props) => {
   const handleOnMenuClick = (e) => {
     setIsOpen(!isOpen)
   }
+  const menuIdentifier = Date.now()
 
   return (
     <DropdownContainer>
@@ -37,7 +31,20 @@ const Dropdown = (props) => {
       </DropdownHeader>
       {isOpen && (
         <DropdownItemsContainer>
-          {props.items.map(mapMenuItems)}
+          {props.items.map((item, index, array) => {
+            const isLastItem = index === array.length - 1
+            const itemKey = `${menuIdentifier}-dropdown-menu-item-${index}`
+
+            return (
+              <DropdownItemContainer
+                bottomBorder={!isLastItem}
+                isClickable={item.isClickable}
+                key={itemKey}
+              >
+                {item.element}
+              </DropdownItemContainer>
+            )
+          })}
         </DropdownItemsContainer>
       )}
     </DropdownContainer>
@@ -46,7 +53,7 @@ const Dropdown = (props) => {
 
 Dropdown.propTypes = {
   header: PropTypes.oneOf([PropTypes.string, PropTypes.element]).isRequired,
-  items: PropTypes.arrayOf(PropTypes.element).isRequired,
+  items: PropTypes.shape(ITEM_SHAPE).isRequired,
 }
 
 export default Dropdown

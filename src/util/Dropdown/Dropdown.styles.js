@@ -1,4 +1,19 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+const hoverStyles = (isClickable) => {
+  if (isClickable) {
+    return css`
+      &:hover {
+        background-color: lightgrey;
+        cursor: pointer;
+      }
+
+      &:hover:last-of-type {
+        border-bottom-left-radius: 0.25em;
+        border-bottom-right-radius: 0.25em;
+      }
+    `
+  }
+}
 
 export const DropdownHeader = styled.button`
   background: transparent;
@@ -32,4 +47,5 @@ export const DropdownItemContainer = styled.li`
   padding: 10px;
   border-bottom: ${({ bottomBorder }) =>
     bottomBorder ? '1px solid lightgrey' : 'none'};
+  ${({ isClickable }) => hoverStyles(isClickable)}
 `

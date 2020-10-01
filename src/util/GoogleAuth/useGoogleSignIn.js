@@ -9,12 +9,9 @@ const useGoogleSignIn = ({
 }) => {
   const [loaded, setLoaded] = useState(false)
 
-  const handleSignInSuccess = useCallback(
-    (res) => {
-      onSuccess(res)
-    },
-    [onSuccess]
-  )
+  const handleSignInSuccess = useCallback(() => {
+    onSuccess()
+  }, [onSuccess])
 
   function signIn(e) {
     if (e) {
@@ -43,11 +40,10 @@ const useGoogleSignIn = ({
             if (!unmounted) {
               setLoaded(true)
               const auth2 = gapi.auth2.getAuthInstance()
-              const userProfile = auth2.currentUser.get().getBasicProfile()
               const signedIn = auth2.isSignedIn.get()
 
               if (signedIn) {
-                handleSignInSuccess(userProfile)
+                handleSignInSuccess()
               }
             }
           },

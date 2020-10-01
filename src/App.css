@@ -20,6 +20,10 @@
   color: white;
 }
 
+.app-header-text {
+  text-transform: uppercase;
+}
+
 .answer {
   font-size: 35em;
   color: white;

@@ -15,21 +15,53 @@ const Avatar = ({ url }) => {
 }
 
 const Topbar = ({ avatarDetails, signOutProps }) => {
+  const getSignedInText = () => {
+    if (!avatarDetails) {
+      return 'Signing in...'
+    }
+
+    const { firstName, lastName, email } = avatarDetails
+
+    let fullName = ''
+    let emailText = ''
+
+    if (firstName) {
+      fullName = firstName
+    }
+
+    if (fullName && lastName) {
+      fullName = `${fullName} ${lastName}`
+    } else if (!fullName && lastName) {
+      fullName = lastName
+    }
+
+    if (fullName && email) {
+      emailText = ` (${email})`
+    } else if (!fullName && email) {
+      emailText = email
+    }
+
+    return `Signed in as ${fullName}${emailText}`
+  }
   const menuItems = [
-    <SignedInAsStyle>
-      Signed in as {avatarDetails.firstName} {avatarDetails.lastName} (
-      {avatarDetails.email})
-    </SignedInAsStyle>,
-    <GoogleSignOut title="Sign Out" />,
+    {
+      isClickable: false,
+      element: <SignedInAsStyle>{getSignedInText()}</SignedInAsStyle>,
+    },
+    { isClickable: true, element: <GoogleSignOut title="Sign Out" /> },
   ]
 
   return (
     <TopbarContainer>
       <HeaderStyle>Is it eng friday tomorrow?</HeaderStyle>
-      <Dropdown
-        header={<Avatar url={avatarDetails.avatar} />}
-        items={menuItems}
-      />
+      {avatarDetails ? (
+        <Dropdown
+          header={<Avatar url={avatarDetails.avatar} />}
+          items={menuItems}
+        />
+      ) : (
+        <p>Signing in...</p>
+      )}
     </TopbarContainer>
   )
 }

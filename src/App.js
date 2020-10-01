@@ -1,6 +1,6 @@
 import './App.css'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 
 import { GoogleSignIn } from './util/GoogleAuth'
@@ -105,15 +105,17 @@ function App() {
   const [avatarDetails, setAvatarDetails] = useState(null)
 
   const handleSignIn = (res) => {
-    console.log(res)
-    if (typeof res.getGivenName === 'function') {
-      setAvatarDetails({
-        firstName: res?.getGivenName(),
-        lastName: res?.getFamilyName(),
-        avatar: res?.getImageUrl(),
-        email: res?.getEmail(),
-      })
-    }
+    const userProfile = window.gapi.auth2
+      .getAuthInstance()
+      .currentUser.get()
+      .getBasicProfile()
+
+    setAvatarDetails({
+      firstName: userProfile.getGivenName(),
+      lastName: userProfile.getFamilyName(),
+      avatar: userProfile.getImageUrl(),
+      email: userProfile.getEmail(),
+    })
 
     setSignedIn(true)
   }
@@ -142,7 +144,7 @@ function App() {
               }}
             />
           ) : (
-            <p>Is it eng friday tomorrow?</p>
+            <p className="app-header-text">Is it eng friday tomorrow?</p>
           )}
         </header>
         <main>
