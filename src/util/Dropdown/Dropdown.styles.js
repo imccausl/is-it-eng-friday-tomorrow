@@ -23,7 +23,7 @@ export const DropdownHeader = styled.button`
 
 export const DropdownContainer = styled.div`
   position: relative;
-  width: 100%;
+  width: 20%;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -44,7 +44,6 @@ export const DropdownItemsContainer = styled.ul`
 
 export const DropdownItemContainer = styled.li`
   color: black;
-  padding: 10px;
   border-bottom: ${({ bottomBorder }) =>
     bottomBorder ? '1px solid lightgrey' : 'none'};
   ${({ isClickable }) => hoverStyles(isClickable)}

@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 
 import useGoogleSignOut from '../useGoogleSignOut'
 import {
   Avatar,
-  EmailStyle,
   NameContainer,
   NameStyle,
   SignOutButtonContainer,
@@ -19,6 +17,7 @@ const GoogleSignOut = ({
   config,
   onSuccess,
   onFailure,
+  textAlign,
   title,
 }) => {
   const [signOut, loaded] = useGoogleSignOut({
@@ -38,7 +37,7 @@ const GoogleSignOut = ({
 
   return (
     <SignOutButtonStyle onClick={handleSignOut}>
-      <SignOutButtonContainer>
+      <SignOutButtonContainer textAlign={textAlign}>
         {avatar && (
           <Avatar
             src={avatar}

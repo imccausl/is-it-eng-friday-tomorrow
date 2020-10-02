@@ -50,7 +50,9 @@ const Topbar = ({ avatarDetails, signOutProps }) => {
     },
     {
       isClickable: true,
-      element: <GoogleSignOut title="Sign Out" {...signOutProps} />,
+      element: (
+        <GoogleSignOut textAlign="left" title="Sign Out" {...signOutProps} />
+      ),
     },
   ]
 

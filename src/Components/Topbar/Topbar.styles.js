@@ -34,5 +34,6 @@ export const SignedInAsStyle = styled.p`
   width: 100%;
   font-size: 1em;
   margin: 0;
-  text-align: center;
+  padding: 10px;
+  text-align: left;
 `

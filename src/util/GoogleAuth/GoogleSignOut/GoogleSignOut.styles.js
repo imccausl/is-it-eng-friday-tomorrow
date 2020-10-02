@@ -1,5 +1,20 @@
 import styled from 'styled-components'
 
+export const getTextAlign = (alignment) => {
+  const ALIGNMENT_MAP = {
+    center: 'center',
+    left: 'flex-start',
+    right: 'flex-end',
+  }
+  const ALLOWED_ALIGNMENTS = Object.keys(ALIGNMENT_MAP)
+
+  if (ALLOWED_ALIGNMENTS.includes(alignment)) {
+    return ALIGNMENT_MAP[alignment]
+  }
+
+  return ALIGNMENT_MAP.center
+}
+
 export const SignOutButtonStyle = styled.button`
   display: block;
   border: 0;
@@ -15,7 +30,8 @@ export const SignOutButtonContainer = styled.div`
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
-  justify-content: center;
+  justify-content: ${({ textAlign }) => getTextAlign(textAlign)};
+  padding: 10px;
 `
 
 export const NameContainer = styled.div`
