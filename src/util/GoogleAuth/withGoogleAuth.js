@@ -1,8 +1,6 @@
-import './GoogleAuth.css'
-
 import React from 'react'
 
-import googleLogo from '../../img/btn_google_signin_light_normal_web.png'
+import googleLogo from './GoogleSignIn/img/btn_google_signin_light_normal_web.png'
 
 export const withGoogleAuth = (config, WrappedComponent) =>
   class extends React.PureComponent {
